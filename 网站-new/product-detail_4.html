@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 引入商品详情页 CSS -->
+  <link rel="stylesheet" href="product-detail_styles.css"> 
+  <title>商品详情</title>
+</head>
+<body>
+  <div class="container">
+    <!-- 返回首页按钮 -->
+    <a href="HomePage.html"><back-btn" onclick="goToIndex()">返回首页</button></a>
+
+    <!-- 商品图片区域（示例占位） -->
+    <div class="product-img">商品图片</div>
+
+    <!-- 商品价格区域 -->
+    <div class="product-price">¥27.9</div>
+
+    <!-- 商品名称（用于收藏时记录） -->
+    <div class="product-name">商品4</div>
+    <div class="product-category">食品</div>
+
+    <!-- 功能按钮区域 -->
+    <div class="btn-group">
+      <!-- 收藏按钮，点击触发收藏逻辑 -->
+      <button class="action-btn" onclick="addToFavorite()">收藏</button> 
+       <button class="add-to-cart"onclick="addToCart('商品4',27.9,'食品')">加入购物车</button>
+      <button class="action-btn">立即购买</button>
+    </div>
+
+    <!-- 文本描述区域 -->
+    <div class="text-area">
+      这里是商品4的详细介绍，比如材质、功能、使用场景等信息...
+    </div>
+  </div>
+
+  <a href="cart.html" class="go-to-cart">前往购物车</a>
+
+  <!-- 引入 JavaScript 逻辑 -->
+  <script src="favorites_script.js"></script> 
+  <script src="cart_script.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+/* 通用样式 */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+/* 支付页容器 */
+.payment-container {
+  width: 80%;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* 按钮通用样式 */
+.back-btn,
+.checkout-btn {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  background-color: #3498db;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.back-btn:hover,
+.checkout-btn:hover {
+  background-color: #2980b9;
+}
+
+/* 价格和余额显示 */
+.price-box,
+.balance-box {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}

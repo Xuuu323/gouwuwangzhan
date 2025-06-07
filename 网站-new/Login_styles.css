@@ -1,0 +1,99 @@
+/* 全局样式初始化，清除默认边距和盒模型设置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*  body 样式，设置背景、弹性布局让登录框居中 */
+body {
+  font-family: Arial, sans-serif;
+  /* 背景图，可替换成实际图片链接，这里用示例渐变模拟天空效果，也可换成 url('背景图路径')  */
+  background: linear-gradient(135deg, #c3e3f3, #e9f7ff); 
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 登录容器样式，设置外观、透明效果、阴影等 */
+.login-container {
+  background-color: rgba(255, 255, 255, 0.8); 
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 320px;
+  text-align: center;
+}
+
+/* 登录标题样式 */
+.login-container h1 {
+  margin-bottom: 30px;
+  font-size: 28px;
+  color: #333;
+}
+
+/* 输入组样式，控制输入框和图标整体布局 */
+.input-group {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+/* 图标通用样式，设置大小、颜色、内边距等 */
+.icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #999;
+  font-size: 16px;
+  border-right: 1px solid #ddd;
+}
+
+/* 账号输入框图标，用 Unicode 模拟用户图标（也可引入字体图标或 SVG） */
+.user-icon::before {
+  content: "\f007"; 
+  font-family: "Font Awesome 5 Free"; 
+  font-weight: 900;
+}
+
+/* 密码输入框图标，用 Unicode 模拟锁图标（也可引入字体图标或 SVG） */
+.lock-icon::before {
+  content: "\f023"; 
+  font-family: "Font Awesome 5 Free"; 
+  font-weight: 900;
+}
+
+/* 输入框样式，设置边框、内边距等 */
+.input-group input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 12px 10px;
+  font-size: 14px;
+  background: transparent;
+}
+
+/* 登录按钮样式 */
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #6495ed;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* 登录按钮 hover 效果 */
+.login-btn:hover {
+  background-color: #4682b4;
+}
