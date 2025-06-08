@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/product-detail.css">
+  <title>商品详情</title>
+</head>
+<body>
+  <div class="container">
+    <button class="back-btn" onclick="goToIndex()">返回首页</button>
+    
+    <div class="product">
+      <h2 class="product-name" id="product-name">商品01</h2>
+      <p class="product-category" id="product-category">服装</p>
+      <p class="product-price" id="product-price">¥87.90</p>
+      <button class="add-to-cart" onclick="addToCart('商品01', 87.90, '服装')">加入购物车</button>
+      <button class="add-to-favorite" onclick="addToFavorite('商品01', 87.90, '服装')">加入收藏夹</button>
+      <button class="buy-now" onclick="buyNow(87.90)">立即购买</button>
+    </div>
+    
+    <a href="cart.html" class="go-to-cart">前往购物车</a>
+    <a href="favorites.html" class="go-to-favorite">前往收藏夹</a>
+  </div>
+  <script src="../js/script.js"></script>
+  <script src="../js/auth.js"></script>
+  <div id="login-status" class="login-status"></div>
+</body>
+</html>

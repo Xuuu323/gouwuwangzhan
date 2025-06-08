@@ -36,9 +36,29 @@
       </ul>
     </aside>
 
-    <!-- 中间滚动展示 -->
+    <!-- 中间滚动展示（商品轮播） -->
     <section class="banner">
-      <div class="banner-placeholder">滚动展示图片</div>
+      <div class="banner-container">
+        <!-- 商品轮播项 -->
+        <div class="banner-item" data-src="商品01">
+          <a href="product-detail-01.html"><img src="https://via.placeholder.com/800x400?text=商品01" alt="商品01"></a>
+          <div class="banner-desc">热销商品：商品01</div>
+        </div>
+        <div class="banner-item" data-src="商品02">
+          <a href="product-detail-02.html"><img src="https://via.placeholder.com/800x400?text=商品02" alt="商品02"></a>
+          <div class="banner-desc">热销商品：商品02</div>
+        </div>
+        <div class="banner-item" data-src="商品03">
+          <a href="product-detail-03.html"><img src="https://via.placeholder.com/800x400?text=商品03" alt="商品03"></a>
+          <div class="banner-desc">热销商品：商品03</div>
+        </div>
+
+        <!-- 轮播导航按钮 -->
+        <div class="banner-controls">
+          <button class="prev-btn">&lt;</button>
+          <button class="next-btn">&gt;</button>
+        </div>
+      </div>
     </section>
 
     <!-- 底部推荐商品 -->
@@ -50,6 +70,7 @@
     </section>
   </div>
   <script src="../js/auth.js"></script>
+  <script src="../js/slider.js"></script>
 </body>
 
 </html>
