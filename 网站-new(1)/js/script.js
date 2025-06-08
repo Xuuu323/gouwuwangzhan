@@ -257,15 +257,20 @@ function updateTotal() {
 
 // 结算功能
 function checkout() {
-  const total = document.getElementById('total-price').textContent;
-  alert(`结算成功！总价格：¥${total}`);
+  // 检查登录状态
+  if (!checkLogin()) return;
   
-  // 移除已勾选的商品
-  cartItems = cartItems.filter(item => !item.checked);
-  localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  renderCart();
+  // 计算勾选商品的总价
+  let total = 0;
+  cartItems.forEach(item => {
+    if (item.checked) {
+      total += item.price * item.quantity;
+    }
+  });
+  
+  // 跳转到支付页，传递总价
+  window.location.href = `payment.html?price=${total.toFixed(2)}`;
 }
-
 // 设置管理按钮逻辑
 function setupManageButton() {
   const manageBtn = document.getElementById('manage-btn');
@@ -355,27 +360,61 @@ function removeFavoriteItem(name, category) {
 // ========== 支付页逻辑 ==========
 // 渲染支付页
 function renderPayment() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const price = urlParams.get('price');
+  // 检查登录状态
+  if (!checkLogin()) return;
   
-  document.getElementById('total-price').textContent = `价格：¥${price}`;
-  document.getElementById('wallet-balance').textContent = WALLET_BALANCE;
+  const urlParams = new URLSearchParams(window.location.search);
+  const price = parseFloat(urlParams.get('price'));
+  
+  if (isNaN(price)) {
+    alert('支付金额无效');
+    goToIndex();
+    return;
+  }
+  
+  document.getElementById('payment-amount').textContent = price.toFixed(2);
+  
+  // 从localStorage获取用户余额
+  const balance = getCurrentBalance();
+  document.getElementById('wallet-balance').textContent = balance.toFixed(2);
 }
 
 // 确认支付
 function checkoutPayment() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const price = parseFloat(urlParams.get('price'));
+  // 检查登录状态
+  if (!checkLogin()) return;
   
-  if (price <= WALLET_BALANCE) {
-    alert('支付成功！');
-    // 支付成功后可清空购物车（如果是购物车结算）
-    if (document.referrer.includes('cart.html')) {
-      cartItems = cartItems.filter(item => !item.checked);
-      localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    }
-    goToIndex();
-  } else {
-    alert('余额不足，支付失败！');
+  const paymentAmount = parseFloat(document.getElementById('payment-amount').textContent);
+  const balance = getCurrentBalance();
+  
+  if (paymentAmount <= 0) {
+    alert('支付金额无效');
+    return;
   }
+  
+  if (paymentAmount > balance) {
+    alert('余额不足，支付失败！');
+    return;
+  }
+  
+  // 更新余额并记录交易
+  const newBalance = updateBalance(paymentAmount);
+  
+  // 显示支付成功消息
+  const message = `
+    支付成功！
+    支付金额：¥${paymentAmount.toFixed(2)}
+    原余额：¥${balance.toFixed(2)}
+    新余额：¥${newBalance.toFixed(2)}
+  `;
+  alert(message);
+  
+  // 支付成功后清空购物车中已勾选的商品
+  if (document.referrer.includes('cart.html')) {
+    cartItems = cartItems.filter(item => !item.checked);
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }
+  
+  // 跳转到余额页面
+  window.location.href = 'balance.html';
 }

@@ -9,6 +9,9 @@
 </head>
 <body>
   <div class="cart-container">
+    <!-- 添加登录状态显示 -->
+    <div id="login-status" class="login-status"></div>
+    
     <div class="cart-header">
       <button class="back-btn" onclick="goToIndex()">返回首页</button>
       <button class="manage-btn" id="manage-btn">管理</button>
@@ -23,8 +26,10 @@
       </div>
       <span>总价格：¥<span id="total-price">0.00</span></span>
       <button class="checkout-btn" onclick="checkout()">结算</button>
+      <button class="balance-btn" onclick="goToBalance()">查看余额</button>
     </div>
   </div>
+  <script src="../js/auth.js"></script>
   <script src="../js/script.js"></script>
 </body>
 </html>

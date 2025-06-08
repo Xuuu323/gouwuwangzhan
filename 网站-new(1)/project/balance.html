@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/balance.css">
+  <title>我的余额</title>
+</head>
+<body>
+  <div class="balance-container">
+    <a href="index.html"><button class="back-btn" onclick="goToIndex()">返回首页</button></a>
+    <div id="login-status" class="login-status"></div>
+    
+    <h2>我的余额</h2>
+    <div class="balance-info">
+      <div class="balance-amount">¥<span id="current-balance">0.00</span></div>
+      <button class="recharge-btn" onclick="recharge()">充值</button>
+    </div>
+    
+    <h3>最近交易记录</h3>
+    <div id="transaction-history"></div>
+  </div>
+  <script src="../js/auth.js"></script>
+  <script src="../js/balance.js"></script>
+</body>
+</html>

@@ -10,11 +10,13 @@
 <body>
   <div class="payment-container">
     <button class="back-btn" onclick="goToIndex()">返回首页</button>
+    <div id="login-status" class="login-status"></div>
     
-    <div class="price-box" id="total-price">价格：¥0.00</div>
-    <div class="balance-box">钱包余额：¥<span id="wallet-balance">1000</span></div>
+    <div class="price-box">支付金额：¥<span id="payment-amount">0.00</span></div>
+    <div class="balance-box">钱包余额：¥<span id="wallet-balance">0.00</span></div>
     <button class="checkout-btn" onclick="checkoutPayment()">确认支付</button>
   </div>
   <script src="../js/script.js"></script>
+  <script src="../js/auth.js"></script>
 </body>
 </html>

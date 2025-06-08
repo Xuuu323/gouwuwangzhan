@@ -1,0 +1,50 @@
+.balance-container {
+  width: 400px;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.balance-info {
+  margin: 30px 0;
+}
+
+.balance-amount {
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.recharge-btn {
+  background-color: #2ecc71;
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.recharge-btn:hover {
+  background-color: #27ae60;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.transaction-amount {
+  font-weight: bold;
+}
+
+.income {
+  color: #2ecc71;
+}
+
+.expense {
+  color: #e74c3c;
+}
