@@ -232,3 +232,104 @@ function setupManageButton() {
     });
   };
 }
+// 跳转到首页（示例：可替换为实际首页地址）
+function goToIndex() {
+  window.location.href = "index.html"; 
+}
+
+// 商品详情页：加入收藏夹逻辑
+function addToFavorite() {
+  // 获取商品名称和价格（价格可从页面元素或固定值读取，这里写死示例）
+  const productName = document.querySelector('.product-name').textContent;
+  const productPrice = document.querySelector('.product-price').textContent;
+
+  // 从本地存储读取已收藏数据
+  const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+  // 检查是否已收藏，避免重复添加
+  const isExisted = favorites.some(item => item.name === productName);
+  if (isExisted) {
+    alert('该商品已在收藏夹中');
+    return;
+  }
+
+  // 添加新商品到收藏列表
+  favorites.push({ 
+    name: productName, 
+    price: productPrice 
+  });
+
+  // 重新存入本地存储
+  localStorage.setItem('favorites', JSON.stringify(favorites));
+  alert('已加入收藏夹');
+}
+
+// 收藏夹页：页面加载时渲染收藏列表
+window.onload = function () {
+  if (window.location.href.includes('favorites.html')) {
+    const favoritesList = document.getElementById('favorites-list');
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+    // 遍历收藏数据，渲染到页面
+    favorites.forEach((item, index) => {
+      const itemDiv = document.createElement('div');
+      itemDiv.className = 'favorite-item';
+      itemDiv.innerHTML = `
+        <span>${item.name}</span>
+        <span>${item.price}</span>
+        <button onclick="removeFromFavorite(${index})">移除收藏夹</button>
+      `;
+      favoritesList.appendChild(itemDiv);
+    });
+  }
+};
+
+// 收藏夹页：移除收藏逻辑
+function removeFromFavorite(index) {
+  const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  // 删除对应索引的商品
+  favorites.splice(index, 1); 
+  // 重新存入本地存储
+  localStorage.setItem('favorites', JSON.stringify(favorites)); 
+  // 刷新页面（或重新渲染列表，这里简单刷新）
+  window.location.reload(); 
+}
+// 模拟钱包余额（固定为1000）
+const WALLET_BALANCE = 1000;
+
+// 页面加载时初始化
+window.onload = function () {
+  // 从 URL 参数获取支付金额
+  const urlParams = new URLSearchParams(window.location.search);
+  const price = urlParams.get('price');
+  
+  // 显示价格
+  const totalPriceElement = document.getElementById('total-price');
+  totalPriceElement.textContent = `价格：¥${price}`;
+
+  // 显示钱包余额
+  const balanceElement = document.getElementById('wallet-balance');
+  balanceElement.textContent = WALLET_BALANCE;
+};
+
+// 结算功能
+// 新增：立即购买功能（商品详情页）
+function buyNow(price) {
+  // 直接跳转到支付页，传递商品价格
+  window.location.href = `payment.html?price=${price.toFixed(2)}`;
+}
+
+// 修改：结算功能（购物车页）
+function checkout() {
+  // 计算已勾选商品的总价
+  let total = 0;
+  cartItems.forEach(item => {
+    if (item.checked) {
+      total += item.price * item.quantity;
+    }
+  });
+}
+// 返回首页（示例：可替换为实际首页地址）
+function goToIndex() {
+  window.location.href = 'index.html';
+}

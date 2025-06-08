@@ -1,0 +1,24 @@
+.product {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.product-name {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.product-category {
+  color: #777;
+  margin: 5px 0;
+}
+
+.product-price {
+  font-size: 20px;
+  color: #e74c3c;
+  margin: 10px 0;
+}
+
+.add-to-cart, .add-to-favorite, .buy-now {
+  margin: 5px;
+}

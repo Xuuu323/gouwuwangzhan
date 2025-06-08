@@ -1,0 +1,32 @@
+/* 通用样式 */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.container, .cart-container, .favorites-container, .payment-container {
+  width: 80%;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 按钮通用样式 */
+button, .btn, .go-to-cart, .go-to-favorite {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  background-color: #3498db;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+button:hover, .btn:hover, .go-to-cart:hover, .go-to-favorite:hover {
+  background-color: #2980b9;
+}

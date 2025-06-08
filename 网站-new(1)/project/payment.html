@@ -3,24 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="payment.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/payment.css">
   <title>支付页面</title>
 </head>
 <body>
   <div class="payment-container">
-    <!-- 返回首页按钮 -->
-    <a href="HomePage.html"><button class="back-btn" onclick="goToIndex()">返回首页</button></a>
-
-    <!-- 价格显示 -->
+    <button class="back-btn" onclick="goToIndex()">返回首页</button>
+    
     <div class="price-box" id="total-price">价格：¥0.00</div>
-
-    <!-- 钱包余额 -->
     <div class="balance-box">钱包余额：¥<span id="wallet-balance">1000</span></div>
-
-    <!-- 结算按钮 -->
-    <button class="checkout-btn" onclick="checkout()">结算</button>
+    <button class="checkout-btn" onclick="checkoutPayment()">确认支付</button>
   </div>
-
-  <script src="script.js"></script>
+  <script src="../js/script.js"></script>
 </body>
 </html>
