@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/index.css"> 
+  <title>商品列表</title>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <style>
+    /* 页面标题 */
+    .page-title {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    
+    .page-title h1 {
+      font-size: 24px;
+      color: #333;
+      margin: 0;
+    }
+    
+    .page-title p {
+      color: #666;
+      margin: 5px 0 0;
+    }
+    
+    /* 筛选条件 */
+    .filter-bar {
+      max-width: 1200px;
+      margin: 15px auto;
+      padding: 10px 20px;
+      background-color: #f8f8f8;
+      border: 1px solid #eee;
+      border-radius: 4px;
+    }
+    
+    .filter-group {
+      margin-bottom: 10px;
+    }
+    
+    .filter-group label {
+      display: inline-block;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+    
+    .filter-options {
+      display: inline-block;
+    }
+    
+    .filter-options a {
+      display: inline-block;
+      padding: 5px 10px;
+      margin-right: 10px;
+      margin-bottom: 5px;
+      color: #555;
+      text-decoration: none;
+      border-radius: 3px;
+    }
+    
+    .filter-options a.active {
+      background-color: #ff4d4f;
+      color: white;
+    }
+    
+    /* 排序选项 */
+    .sort-options {
+      max-width: 1200px;
+      margin: 15px auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .sort-buttons a {
+      display: inline-block;
+      padding: 8px 15px;
+      margin-right: 10px;
+      color: #555;
+      text-decoration: none;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .sort-buttons a.active {
+      background-color: #f0f0f0;
+      color: #ff4d4f;
+      border-color: #ff4d4f;
+    }
+    
+    /* 商品列表 */
+    .product-list {
+      max-width: 1200px;
+      margin: 15px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 15px;
+    }
+    
+    .product-card {
+      background-color: #fff;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .product-info {
+      padding: 10px;
+    }
+    
+    .product-name {
+      font-size: 14px;
+      margin: 0 0 5px;
+      height: 40px;
+      overflow: hidden;
+    }
+    
+    .product-price {
+      color: #ff4d4f;
+      font-weight: bold;
+      margin: 0;
+    }
+    
+    .product-category {
+      font-size: 12px;
+      color: #666;
+      margin: 5px 0 0;
+    }
+    
+    /* 分页 */
+    .pagination {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .pagination a {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      margin: 0 5px;
+      color: #555;
+      text-decoration: none;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .pagination a.active {
+      background-color: #ff4d4f;
+      color: white;
+      border-color: #ff4d4f;
+    }
+    
+    /* 移动适配 */
+    @media (max-width: 768px) {
+      .product-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 顶部功能区 -->
+  <header class="top-nav">
+    <div class="top-nav-right">
+      <a href="cart.html">购物车</a>
+      <a href="favorites.html">收藏夹</a>
+      <a href="login.html">登入</a>
+    </div>
+  </header>
+
+  <!-- 搜索栏 -->
+  <div class="search-bar">
+    <input type="text" id="search-input" class="search-input" placeholder="搜索你想要的商品">
+    <button id="search-button" class="search-button">
+      <i class="fa fa-search"></i>
+    </button>
+  </div>
+
+  <!-- 页面标题 -->
+  <div class="page-title">
+    <h1 id="category-title">商品列表</h1>
+    <p id="category-description">浏览我们的精选商品</p>
+  </div>
+
+  <!-- 筛选条件 -->
+  <div class="filter-bar">
+    <div class="filter-group">
+      <label>分类:</label>
+      <div class="filter-options">
+        <a href="#" data-category="all">全部</a>
+        <a href="#" data-category="文具">文具</a>
+        <a href="#" data-category="家具">家具</a>
+        <a href="#" data-category="服装">服装</a>
+        <a href="#" data-category="食品">食品</a>
+      </div>
+    </div>
+    
+    <div class="filter-group">
+      <label>价格:</label>
+      <div class="filter-options">
+        <a href="#" data-price="all">全部</a>
+        <a href="#" data-price="0-100">¥0-100</a>
+        <a href="#" data-price="100-500">¥100-500</a>
+        <a href="#" data-price="500-1000">¥500-1000</a>
+        <a href="#" data-price="1000-5000">¥1000-5000</a>
+        <a href="#" data-price="5000-">¥5000以上</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 排序选项 -->
+  <div class="sort-options">
+    <div class="sort-buttons">
+      <a href="#" class="active" data-sort="default">默认排序</a>
+      <a href="#" data-sort="price-asc">价格从低到高</a>
+      <a href="#" data-sort="price-desc">价格从高到低</a>
+      <a href="#" data-sort="newest">最新上架</a>
+    </div>
+    
+    <div class="result-count">
+      <span id="product-count">0</span> 件商品
+    </div>
+  </div>
+
+  <!-- 商品列表 -->
+  <div class="product-list" id="product-list">
+    <!-- 商品卡片将通过JavaScript动态生成 -->
+  </div>
+
+  <!-- 分页 -->
+  <div class="pagination">
+    <a href="#" class="active">1</a>
+    <a href="#">2</a>
+    <a href="#">3</a>
+    <a href="#">4</a>
+    <a href="#">5</a>
+    <a href="#">下一页</a>
+  </div>
+
+  <!-- 引入脚本 -->
+  <script src="../js/auth.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 解析URL参数
+      const urlParams = new URLSearchParams(window.location.search);
+      const category = urlParams.get('category') || 'all';
+      const subcategory = urlParams.get('subcategory') || 'all';
+      
+      // 设置页面标题
+      const categoryTitle = document.getElementById('category-title');
+      const categoryDescription = document.getElementById('category-description');
+      
+      if (category !== 'all') {
+        if (subcategory !== 'all') {
+          categoryTitle.textContent = `${category} - ${subcategory}`;
+          categoryDescription.textContent = `浏览我们的${category}类${subcategory}商品`;
+        } else {
+          categoryTitle.textContent = category;
+          categoryDescription.textContent = `浏览我们的${category}类商品`;
+        }
+      }
+      
+      // 示例商品数据
+      const products = [
+        { id: 1, name: "高级钢笔", price: 89, category: "文具", subcategory: "笔类", image: "https://via.placeholder.com/200x200?text=钢笔", description: "高品质金属笔尖，书写流畅，适合日常办公和书写。" },
+        { id: 2, name: "商务笔记本", price: 39, category: "文具", subcategory: "笔记本", image: "https://via.placeholder.com/200x200?text=笔记本", description: "精装硬壳笔记本，优质纸张，适合会议记录和日常笔记。" },
+        { id: 3, name: "真皮钱包", price: 199, category: "服装", subcategory: "配饰", image: "https://via.placeholder.com/200x200?text=钱包", description: "精选头层牛皮，多卡位设计，简约时尚，商务休闲皆宜。" },
+        { id: 4, name: "纯棉T恤", price: 89, category: "服装", subcategory: "上衣", image: "https://via.placeholder.com/200x200?text=T恤", description: "100%纯棉面料，舒适透气，多种颜色可选，经典百搭。" },
+        { id: 5, name: "智能手表", price: 1299, category: "电子产品", subcategory: "穿戴设备", image: "https://via.placeholder.com/200x200?text=手表", description: "多功能智能手表，心率监测，睡眠分析，运动追踪，防水设计。" },
+        { id: 6, name: "实木书桌", price: 1599, category: "家具", subcategory: "桌椅", image: "https://via.placeholder.com/200x200?text=书桌", description: "精选实木打造，坚固耐用，简约现代风格，适合家庭和办公使用。" },
+        { id: 7, name: "无线蓝牙耳机", price: 599, category: "电子产品", subcategory: "音频设备", image: "https://via.placeholder.com/200x200?text=耳机", description: "高清音质，长续航，蓝牙5.0，佩戴舒适，适合运动和日常使用。" },
+        { id: 8, name: "有机坚果礼盒", price: 129, category: "食品", subcategory: "零食", image: "https://via.placeholder.com/200x200?text=坚果", description: "精选多种有机坚果，独立小包装，健康美味，适合送礼和自享。" },
+        { id: 9, name: "咖啡杯", price: 49, category: "家具", subcategory: "餐具", image: "https://via.placeholder.com/200x200?text=咖啡杯", description: "陶瓷材质，精美设计，保温性能好，适合咖啡和茶爱好者。" },
+        { id: 10, name: "保温杯", price: 129, category: "家具", subcategory: "餐具", image: "https://via.placeholder.com/200x200?text=保温杯", description: "304不锈钢内胆，真空保温，持久锁温，适合户外活动和办公使用。" },
+        { id: 11, name: "纯棉床单四件套", price: 399, category: "家具", subcategory: "床上用品", image: "https://via.placeholder.com/200x200?text=床单", description: "100%纯棉面料，舒适透气，多种颜色可选，高品质印染工艺。" },
+        { id: 12, name: "户外帐篷", price: 599, category: "家具", subcategory: "户外用品", image: "https://via.placeholder.com/200x200?text=帐篷", description: "轻便易携带，防风防雨，适合2-3人使用，适合露营和户外活动。" },
+      ];
+      
+      // 渲染商品列表
+      function renderProducts(filteredProducts) {
+        const productList = document.getElementById('product-list');
+        const productCount = document.getElementById('product-count');
+        
+        // 清空列表
+        productList.innerHTML = '';
+        
+        // 更新商品数量
+        productCount.textContent = filteredProducts.length;
+        
+        // 渲染商品卡片
+        if (filteredProducts.length > 0) {
+          filteredProducts.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
+            productCard.innerHTML = `
+              <a href="product-detail-${product.id}.html">
+                <img src="${product.image}" alt="${product.name}">
+              </a>
+              <div class="product-info">
+                <h3 class="product-name">${product.name}</h3>
+                <p class="product-price">¥${product.price}</p>
+                <p class="product-category">${product.category} > ${product.subcategory}</p>
+              </div>
+            `;
+            productList.appendChild(productCard);
+          });
+        } else {
+          productList.innerHTML = '<p style="text-align: center; padding: 50px;">没有找到符合条件的商品</p>';
+        }
+      }
+      
+      // 筛选商品
+      function filterProducts() {
+        let filteredProducts = [...products];
+        
+        // 按分类筛选
+        if (category !== 'all') {
+          filteredProducts = filteredProducts.filter(product => product.category === category);
+          
+          // 如果指定了子分类
+          if (subcategory !== 'all') {
+            filteredProducts = filteredProducts.filter(product => product.subcategory === subcategory);
+          }
+        }
+        
+        renderProducts(filteredProducts);
+      }
+      
+      // 初始化筛选
+      filterProducts();
+      
+      // 筛选条件点击事件
+      const categoryFilters = document.querySelectorAll('.filter-options a[data-category]');
+      const priceFilters = document.querySelectorAll('.filter-options a[data-price]');
+      const sortButtons = document.querySelectorAll('.sort-buttons a');
+      
+      categoryFilters.forEach(filter => {
+        filter.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          // 更新URL参数
+          const newCategory = this.getAttribute('data-category');
+          const newUrl = newCategory === 'all' 
+            ? 'products.html' 
+            : `products.html?category=${newCategory}`;
+          
+          window.location.href = newUrl;
+        });
+      });
+      
+      // 搜索功能
+      const searchInput = document.getElementById('search-input');
+      const searchButton = document.getElementById('search-button');
+      
+      searchButton.addEventListener('click', function() {
+        const keyword = searchInput.value.trim();
+        if (keyword) {
+          window.location.href = `products.html?search=${encodeURIComponent(keyword)}`;
+        }
+      });
+      
+      searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          searchButton.click();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+    

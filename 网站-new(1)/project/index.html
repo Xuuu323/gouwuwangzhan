@@ -6,6 +6,310 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/index.css"> 
   <title>购物网站首页</title>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <style>
+    /* 搜索相关样式 */
+    .search-bar {
+      max-width: 800px;
+      margin: 20px auto;
+      position: relative;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 10px 40px 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      font-size: 16px;
+      outline: none;
+    }
+    
+    .search-button {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #555;
+      cursor: pointer;
+    }
+    
+    /* 商品分类样式 */
+    .category {
+      width: 200px;
+      margin-right: 15px;
+      background-color: #fff;
+      border: 1px solid #eee;
+      border-radius: 4px;
+    }
+    
+    .category h3 {
+      margin: 0;
+      padding: 10px 15px;
+      background-color: #f8f8f8;
+      border-bottom: 1px solid #eee;
+      font-size: 16px;
+    }
+    
+    .category-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .category-item {
+      border-bottom: 1px solid #f5f5f5;
+    }
+    
+    .category-item:last-child {
+      border-bottom: none;
+    }
+    
+    .category-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      color: #333;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .category-title:hover {
+      background-color: #f5f5f5;
+    }
+    
+    .category-title.active {
+      background-color: #f0f0f0;
+      color: #ff4d4f;
+    }
+    
+    .category-icon {
+      transition: transform 0.3s;
+    }
+    
+    .category-title.active .category-icon {
+      transform: rotate(180deg);
+    }
+    
+    .subcategory-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      background-color: #f9f9f9;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    
+    .category-item.expanded .subcategory-list {
+      max-height: 500px;
+      transition: max-height 0.5s ease-in;
+    }
+    
+    .subcategory-list li {
+      padding: 8px 15px 8px 30px;
+    }
+    
+    .subcategory-list a {
+      color: #666;
+      text-decoration: none;
+      display: block;
+    }
+    
+    .subcategory-list a:hover {
+      color: #ff4d4f;
+    }
+    
+    /* 轮播样式 */
+    .banner {
+      flex-grow: 1;
+      height: 300px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+    
+    .banner-container {
+      display: flex;
+      height: 100%;
+      transition: transform 0.5s ease;
+    }
+    
+    .banner-item {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    
+    .banner-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .banner-desc {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 10px 15px;
+      margin: 0;
+    }
+    
+    .banner-controls {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      transform: translateY(-50%);
+      display: flex;
+      justify-content: space-between;
+      padding: 0 10px;
+    }
+    
+    .banner-controls button {
+      background-color: rgba(0, 0, 0, 0.3);
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .banner-controls button:hover {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    
+    /* 推荐商品样式 */
+    .recommend {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+    
+    .recommend a {
+      flex: 1;
+      display: block;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .recommend img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+    
+    /* 主容器布局 */
+    .main-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* 搜索结果样式 */
+    .search-results {
+      margin: 20px auto;
+      padding: 0 20px;
+      max-width: 1200px;
+    }
+    
+    .result-count {
+      margin-bottom: 10px;
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .results-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+    
+    .product-card {
+      background-color: #fff;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    
+    .product-info {
+      padding: 10px;
+    }
+    
+    .product-name {
+      font-size: 14px;
+      margin: 0 0 5px;
+      height: 40px;
+      overflow: hidden;
+    }
+    
+    .product-price {
+      color: #ff4d4f;
+      font-weight: bold;
+      margin: 0;
+    }
+    
+    /* 高级筛选选项 */
+    .advanced-options {
+      display: none;
+      background-color: #f8f8f8;
+      padding: 15px;
+      margin-top: 10px;
+      border-radius: 4px;
+      border: 1px solid #eee;
+    }
+    
+    .filter-group {
+      margin-bottom: 10px;
+    }
+    
+    .filter-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #333;
+    }
+    
+    .filter-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #fff;
+    }
+    
+    /* 显示高级筛选按钮 */
+    #show-advanced-btn {
+      margin-top: 5px;
+      background: none;
+      border: none;
+      color: #555;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
@@ -20,19 +324,101 @@
 
   <!-- 搜索栏 -->
   <div class="search-bar">
-    <input type="text" placeholder="搜索你想要的商品">
+    <input type="text" id="search-input" class="search-input" placeholder="搜索你想要的商品">
+    <button id="search-button" class="search-button">
+      <i class="fa fa-search"></i>
+    </button>
+    
+    <!-- 搜索建议 -->
+    <div id="search-suggestions" class="search-suggestions"></div>
+    
+    <!-- 高级筛选选项 -->
+    <div id="advanced-options" class="advanced-options">
+      <div class="filter-group">
+        <label for="category-filter">商品类别</label>
+        <select id="category-filter">
+          <option value="all">全部分类</option>
+          <option value="电子产品">电子产品</option>
+          <option value="服装">服装</option>
+          <option value="家具">家具</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="price-filter">价格范围</label>
+        <select id="price-filter">
+          <option value="all">不限</option>
+          <option value="0-100">¥0-100</option>
+          <option value="100-500">¥100-500</option>
+          <option value="500-1000">¥500-1000</option>
+          <option value="1000-5000">¥1000-5000</option>
+          <option value="5000-">¥5000以上</option>
+        </select>
+      </div>
+    </div>
+    
+    <!-- 显示高级筛选按钮 -->
+    <button id="show-advanced-btn">高级筛选</button>
   </div>
 
-  <!-- 主体内容：左侧分类 + 中间轮播 + 底部推荐 -->
+  <!-- 搜索结果区域 - 移动到顶部显示 -->
+  <div id="search-results" class="search-results" style="display: none;">
+    <div id="result-count" class="result-count"></div>
+    <div id="results-container" class="results-container"></div>
+  </div>
+
   <div class="main-container">
     <!-- 左侧商品分类 -->
     <aside class="category">
       <h3>商品分类</h3>
-      <ul>
-        <li><a href="#">文具</a></li>
-        <li><a href="#">家具</a></li>
-        <li><a href="#">服装</a></li>
-        <li><a href="#">食品</a></li>
+      <ul class="category-list">
+        <li class="category-item">
+          <a href="#" class="category-title">
+            <span>文具</span>
+            <i class="fa fa-chevron-down category-icon"></i>
+          </a>
+          <ul class="subcategory-list hidden">
+            <li><a href="products.html?category=文具&subcategory=笔类">笔类</a></li>
+            <li><a href="products.html?category=文具&subcategory=笔记本">笔记本</a></li>
+            <li><a href="products.html?category=文具&subcategory=文件夹">文件夹</a></li>
+            <li><a href="products.html?category=文具&subcategory=其他文具">其他文具</a></li>
+          </ul>
+        </li>
+        <li class="category-item">
+          <a href="#" class="category-title">
+            <span>家具</span>
+            <i class="fa fa-chevron-down category-icon"></i>
+          </a>
+          <ul class="subcategory-list hidden">
+            <li><a href="products.html?category=家具&subcategory=桌椅">桌椅</a></li>
+            <li><a href="products.html?category=家具&subcategory=床架">床架</a></li>
+            <li><a href="products.html?category=家具&subcategory=衣柜">衣柜</a></li>
+            <li><a href="products.html?category=家具&subcategory=灯具">灯具</a></li>
+          </ul>
+        </li>
+        <li class="category-item">
+          <a href="#" class="category-title">
+            <span>服装</span>
+            <i class="fa fa-chevron-down category-icon"></i>
+          </a>
+          <ul class="subcategory-list hidden">
+            <li><a href="products.html?category=服装&subcategory=上衣">上衣</a></li>
+            <li><a href="products.html?category=服装&subcategory=裤子">裤子</a></li>
+            <li><a href="products.html?category=服装&subcategory=鞋子">鞋子</a></li>
+            <li><a href="products.html?category=服装&subcategory=配饰">配饰</a></li>
+          </ul>
+        </li>
+        <li class="category-item">
+          <a href="#" class="category-title">
+            <span>食品</span>
+            <i class="fa fa-chevron-down category-icon"></i>
+          </a>
+          <ul class="subcategory-list hidden">
+            <li><a href="products.html?category=食品&subcategory=零食">零食</a></li>
+            <li><a href="products.html?category=食品&subcategory=饮料">饮料</a></li>
+            <li><a href="products.html?category=食品&subcategory=干货">干货</a></li>
+            <li><a href="products.html?category=食品&subcategory=生鲜">生鲜</a></li>
+          </ul>
+        </li>
       </ul>
     </aside>
 
@@ -63,14 +449,125 @@
 
     <!-- 底部推荐商品 -->
     <section class="recommend">
-      <a href="product-detail-1.html"><img src="#" alt="推荐商品1"></a>
-      <a href="product-detail-2.html"><img src="#" alt="推荐商品2"></a>
-      <a href="product-detail-3.html"><img src="#" alt="推荐商品3"></a>
-      <a href="product-detail-4.html"><img src="#" alt="推荐商品4"></a>
+      <a href="product-detail-1.html"><img src="https://via.placeholder.com/200x150?text=推荐商品1" alt="推荐商品1"></a>
+      <a href="product-detail-2.html"><img src="https://via.placeholder.com/200x150?text=推荐商品2" alt="推荐商品2"></a>
+      <a href="product-detail-3.html"><img src="https://via.placeholder.com/200x150?text=推荐商品3" alt="推荐商品3"></a>
+      <a href="product-detail-4.html"><img src="https://via.placeholder.com/200x150?text=推荐商品4" alt="推荐商品4"></a>
     </section>
   </div>
+
+  <!-- 引入脚本 -->
   <script src="../js/auth.js"></script>
   <script src="../js/slider.js"></script>
+  <!-- 引入搜索功能脚本 -->
+  <script src="../js/search.js"></script>
+
+  <script>
+    // 商品分类展开/收起功能
+    document.addEventListener('DOMContentLoaded', function() {
+      const categoryItems = document.querySelectorAll('.category-item');
+      
+      categoryItems.forEach(item => {
+        const title = item.querySelector('.category-title');
+        const subList = item.querySelector('.subcategory-list');
+        
+        title.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          // 切换当前分类的展开状态
+          item.classList.toggle('expanded');
+          
+          // 更新图标和样式
+          if (item.classList.contains('expanded')) {
+            title.classList.add('active');
+            subList.style.maxHeight = subList.scrollHeight + 'px';
+          } else {
+            title.classList.remove('active');
+            subList.style.maxHeight = '0';
+          }
+        });
+      });
+      
+      // 显示/隐藏高级筛选选项
+      const showAdvancedBtn = document.getElementById('show-advanced-btn');
+      const advancedOptions = document.getElementById('advanced-options');
+      
+      showAdvancedBtn.addEventListener('click', function() {
+        advancedOptions.style.display = advancedOptions.style.display === 'none' ? 'block' : 'none';
+      });
+      
+      // 搜索功能
+      const searchInput = document.getElementById('search-input');
+      const searchButton = document.getElementById('search-button');
+      const searchResults = document.getElementById('search-results');
+      const resultCount = document.getElementById('result-count');
+      const resultsContainer = document.getElementById('results-container');
+      
+      // 示例商品数据
+      const products = [
+        { id: 1, name: "高级钢笔", price: 89, category: "文具", subcategory: "笔类", image: "https://via.placeholder.com/200x200?text=钢笔" },
+        { id: 2, name: "商务笔记本", price: 39, category: "文具", subcategory: "笔记本", image: "https://via.placeholder.com/200x200?text=笔记本" },
+        { id: 3, name: "真皮钱包", price: 199, category: "服装", subcategory: "配饰", image: "https://via.placeholder.com/200x200?text=钱包" },
+        { id: 4, name: "纯棉T恤", price: 89, category: "服装", subcategory: "上衣", image: "https://via.placeholder.com/200x200?text=T恤" },
+        { id: 5, name: "智能手表", price: 1299, category: "电子产品", subcategory: "穿戴设备", image: "https://via.placeholder.com/200x200?text=手表" },
+        { id: 6, name: "实木书桌", price: 1599, category: "家具", subcategory: "桌椅", image: "https://via.placeholder.com/200x200?text=书桌" },
+        { id: 7, name: "蓝牙音箱", price: 399, category: "电子产品", subcategory: "音频设备", image: "https://via.placeholder.com/200x200?text=音箱" },
+        { id: 8, name: "速溶咖啡", price: 59, category: "食品", subcategory: "饮料", image: "https://via.placeholder.com/200x200?text=咖啡" }
+      ];
+      
+      // 执行搜索
+      function performSearch() {
+        const query = searchInput.value.toLowerCase().trim();
+        
+        if (!query) {
+          searchResults.style.display = 'none';
+          return;
+        }
+        
+        // 筛选匹配的商品
+        const matchedProducts = products.filter(product => 
+          product.name.toLowerCase().includes(query) || 
+          product.category.toLowerCase().includes(query) || 
+          product.subcategory.toLowerCase().includes(query)
+        );
+        
+        // 显示搜索结果
+        resultCount.textContent = `找到 ${matchedProducts.length} 个商品`;
+        resultsContainer.innerHTML = '';
+        
+        if (matchedProducts.length > 0) {
+          matchedProducts.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
+            productCard.innerHTML = `
+              <a href="product-detail-${product.id}.html">
+                <img src="${product.image}" alt="${product.name}">
+                <div class="product-info">
+                  <h3 class="product-name">${product.name}</h3>
+                  <p class="product-price">¥${product.price}</p>
+                </div>
+              </a>
+            `;
+            resultsContainer.appendChild(productCard);
+          });
+          
+          searchResults.style.display = 'block';
+        } else {
+          resultsContainer.innerHTML = '<p>没有找到匹配的商品</p>';
+          searchResults.style.display = 'block';
+        }
+      }
+      
+      // 绑定搜索事件
+      searchButton.addEventListener('click', performSearch);
+      searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          performSearch();
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>
+    
