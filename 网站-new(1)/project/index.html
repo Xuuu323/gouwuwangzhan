@@ -1,276 +1,80 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../css/index.css"> 
   <title>购物网站首页</title>
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <style>
-    /* 搜索相关样式 */
-    .search-bar {
-      max-width: 800px;
-      margin: 20px auto;
-      position: relative;
+    /* 全局样式初始化 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* 顶部功能按钮区域 */
+    .top-nav {
+      background-color: #429a66;
+      padding: 10px 20px;
+      text-align: right;
+    }
+
+    .top-nav-right {
+      display: inline-block;
+    }
+
+    .top-nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      font-size: 14px;
+    }
+
+    .top-nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* 搜索栏样式 */
+    .search-bar {
+      background-color: white;
+      padding: 15px 20px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
     .search-input {
-      width: 100%;
-      padding: 10px 40px 10px 15px;
-      border: 1px solid #ddd;
+      width: 70%;
+      max-width: 600px;
+      padding: 10px 15px;
+      border: 1px solid #ccc;
       border-radius: 20px;
       font-size: 16px;
       outline: none;
+      transition: border-color 0.2s;
     }
-    
+
+    .search-input:focus {
+      border-color: #429a66;
+    }
+
     .search-button {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
       background: none;
       border: none;
       color: #555;
       cursor: pointer;
+      margin-left: -40px;
+      font-size: 18px;
     }
-    
-    /* 商品分类样式 */
-    .category {
-      width: 200px;
-      margin-right: 15px;
-      background-color: #fff;
-      border: 1px solid #eee;
-      border-radius: 4px;
-    }
-    
-    .category h3 {
-      margin: 0;
-      padding: 10px 15px;
-      background-color: #f8f8f8;
-      border-bottom: 1px solid #eee;
-      font-size: 16px;
-    }
-    
-    .category-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    
-    .category-item {
-      border-bottom: 1px solid #f5f5f5;
-    }
-    
-    .category-item:last-child {
-      border-bottom: none;
-    }
-    
-    .category-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 15px;
-      color: #333;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-    
-    .category-title:hover {
-      background-color: #f5f5f5;
-    }
-    
-    .category-title.active {
-      background-color: #f0f0f0;
-      color: #ff4d4f;
-    }
-    
-    .category-icon {
-      transition: transform 0.3s;
-    }
-    
-    .category-title.active .category-icon {
-      transform: rotate(180deg);
-    }
-    
-    .subcategory-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      background-color: #f9f9f9;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease-out;
-    }
-    
-    .category-item.expanded .subcategory-list {
-      max-height: 500px;
-      transition: max-height 0.5s ease-in;
-    }
-    
-    .subcategory-list li {
-      padding: 8px 15px 8px 30px;
-    }
-    
-    .subcategory-list a {
-      color: #666;
-      text-decoration: none;
-      display: block;
-    }
-    
-    .subcategory-list a:hover {
-      color: #ff4d4f;
-    }
-    
-    /* 轮播样式 */
-    .banner {
-      flex-grow: 1;
-      height: 300px;
-      position: relative;
-      overflow: hidden;
-      border-radius: 4px;
-    }
-    
-    .banner-container {
-      display: flex;
-      height: 100%;
-      transition: transform 0.5s ease;
-    }
-    
-    .banner-item {
-      min-width: 100%;
-      height: 100%;
-      position: relative;
-    }
-    
-    .banner-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .banner-desc {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      padding: 10px 15px;
-      margin: 0;
-    }
-    
-    .banner-controls {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
-      transform: translateY(-50%);
-      display: flex;
-      justify-content: space-between;
-      padding: 0 10px;
-    }
-    
-    .banner-controls button {
-      background-color: rgba(0, 0, 0, 0.3);
-      color: white;
-      border: none;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-    
-    .banner-controls button:hover {
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-    
-    /* 推荐商品样式 */
-    .recommend {
-      margin-top: 20px;
-      display: flex;
-      gap: 15px;
-    }
-    
-    .recommend a {
-      flex: 1;
-      display: block;
-      border: 1px solid #eee;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    
-    .recommend img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-    }
-    
-    /* 主容器布局 */
-    .main-container {
-      display: flex;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    
-    /* 搜索结果样式 */
-    .search-results {
-      margin: 20px auto;
-      padding: 0 20px;
-      max-width: 1200px;
-    }
-    
-    .result-count {
-      margin-bottom: 10px;
-      color: #666;
-      font-size: 14px;
-    }
-    
-    .results-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 15px;
-    }
-    
-    .product-card {
-      background-color: #fff;
-      border: 1px solid #eee;
-      border-radius: 4px;
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    
-    .product-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    
-    .product-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-    
-    .product-info {
-      padding: 10px;
-    }
-    
-    .product-name {
-      font-size: 14px;
-      margin: 0 0 5px;
-      height: 40px;
-      overflow: hidden;
-    }
-    
-    .product-price {
-      color: #ff4d4f;
-      font-weight: bold;
-      margin: 0;
-    }
-    
+
     /* 高级筛选选项 */
     .advanced-options {
       display: none;
@@ -279,19 +83,21 @@
       margin-top: 10px;
       border-radius: 4px;
       border: 1px solid #eee;
+      max-width: 800px;
+      margin: 10px auto;
     }
-    
+
     .filter-group {
       margin-bottom: 10px;
     }
-    
+
     .filter-group label {
       display: block;
       margin-bottom: 5px;
       font-size: 14px;
       color: #333;
     }
-    
+
     .filter-group select {
       width: 100%;
       padding: 8px;
@@ -299,8 +105,7 @@
       border-radius: 4px;
       background-color: #fff;
     }
-    
-    /* 显示高级筛选按钮 */
+
     #show-advanced-btn {
       margin-top: 5px;
       background: none;
@@ -308,6 +113,267 @@
       color: #555;
       text-decoration: underline;
       cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* 主体容器：分类、轮播、推荐 布局 */
+    .main-container {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      width: 90%;
+      max-width: 1200px;
+      margin: 20px auto;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* 左侧分类 */
+    .category {
+      width: 220px;
+      background-color: #f9f9f9;
+      border-right: 1px solid #ddd;
+      padding: 20px;
+    }
+
+    .category h3 {
+      margin-bottom: 15px;
+      font-size: 16px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 8px;
+    }
+
+    .category ul {
+      list-style: none;
+    }
+
+    .category li {
+      margin-bottom: 8px;
+    }
+
+    .category a {
+      text-decoration: none;
+      color: #333;
+      display: block;
+      padding: 5px;
+      border-radius: 3px;
+      transition: background-color 0.2s;
+    }
+
+    .category a:hover {
+      background-color: #e9e9e9;
+      color: #429a66;
+    }
+
+    /* 中间滚动展示（轮播图） */
+    .banner {
+      position: relative;
+      height: 400px;
+      overflow: hidden;
+      border-radius: 4px;
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .banner-container {
+      display: flex;
+      width: 300%; /* 3个轮播项 */
+      height: 100%;
+      transition: transform 0.5s ease;
+    }
+
+    .banner-item {
+      flex: 0 0 33.33%;
+      height: 100%;
+      position: relative;
+    }
+
+    .banner-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .banner-desc {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 10px 15px;
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .banner-controls {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 10px;
+    }
+
+    .banner-controls button {
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      font-size: 16px;
+    }
+
+    .banner-controls button:hover {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    /* 底部推荐商品 */
+    .recommend {
+      display: flex;
+      gap: 15px;
+      padding: 20px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .recommend a {
+      flex: 1;
+      min-width: 180px;
+      max-width: 250px;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .recommend a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .recommend img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* 搜索结果样式 */
+    .search-results {
+      margin: 20px auto;
+      padding: 0 20px;
+      max-width: 1200px;
+    }
+
+    .result-count {
+      margin-bottom: 10px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .results-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .product-card {
+      background-color: #fff;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 10px;
+    }
+
+    .product-name {
+      font-size: 14px;
+      margin: 0 0 5px;
+      height: 40px;
+      overflow: hidden;
+    }
+
+    .product-price {
+      color: #ff4d4f;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    /* 商品分类展开/收起功能样式 */
+    .category-item {
+      margin-bottom: 5px;
+    }
+
+    .category-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 5px;
+      cursor: pointer;
+    }
+
+    .category-title:hover {
+      background-color: #e9e9e9;
+    }
+
+    .category-title.active {
+      background-color: #e9e9e9;
+      color: #429a66;
+    }
+
+    .category-icon {
+      transition: transform 0.3s;
+    }
+
+    .category-title.active .category-icon {
+      transform: rotate(180deg);
+    }
+
+    .subcategory-list {
+      list-style: none;
+      padding-left: 15px;
+      margin: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+
+    .category-item.expanded .subcategory-list {
+      max-height: 500px;
+      transition: max-height 0.5s ease-in;
+    }
+
+    .subcategory-list li {
+      margin: 5px 0;
+    }
+
+    .subcategory-list a {
+      padding: 3px 5px;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -318,7 +384,7 @@
     <div class="top-nav-right">
       <a href="cart.html">购物车</a>
       <a href="favorites.html">收藏夹</a>
-      <a href="login.html">登入</a>
+      <a href="login.html">登录</a>
     </div>
   </header>
 
@@ -422,46 +488,125 @@
       </ul>
     </aside>
 
-    <!-- 中间滚动展示（商品轮播） -->
+    <!-- 中间轮播图 -->
     <section class="banner">
-      <div class="banner-container">
-        <!-- 商品轮播项 -->
-        <div class="banner-item" data-src="商品01">
-          <a href="product-detail-01.html"><img src="https://via.placeholder.com/800x400?text=商品01" alt="商品01"></a>
-          <div class="banner-desc">热销商品：商品01</div>
+      <div class="banner-container" id="banner-container">
+        <div class="banner-item">
+          <a href="product-detail-2.html">
+            <img src="../../picture/本子.jpg" alt="本子" class="banner-image">
+          </a>
+          <div class="banner-desc">热销商品：本子</div>
         </div>
-        <div class="banner-item" data-src="商品02">
-          <a href="product-detail-02.html"><img src="https://via.placeholder.com/800x400?text=商品02" alt="商品02"></a>
-          <div class="banner-desc">热销商品：商品02</div>
+        <div class="banner-item">
+          <a href="product-detail-1.html">
+            <img src="../../picture/笔.jpg" alt="笔" class="banner-image">
+          </a>
+          <div class="banner-desc">热销商品：笔</div>
         </div>
-        <div class="banner-item" data-src="商品03">
-          <a href="product-detail-03.html"><img src="https://via.placeholder.com/800x400?text=商品03" alt="商品03"></a>
-          <div class="banner-desc">热销商品：商品03</div>
+        <div class="banner-item">
+          <a href="product-detail-3.html">
+            <img src="../../picture/钱包.png" alt="钱包" class="banner-image">
+          </a>
+          <div class="banner-desc">热销商品：钱包</div>
         </div>
-
-        <!-- 轮播导航按钮 -->
-        <div class="banner-controls">
-          <button class="prev-btn">&lt;</button>
-          <button class="next-btn">&gt;</button>
-        </div>
+      </div>
+      <div class="banner-controls">
+        <button class="prev-btn" onclick="changeBanner(-1)">&#8249;</button>
+        <button class="next-btn" onclick="changeBanner(1)">&#8250;</button>
       </div>
     </section>
 
     <!-- 底部推荐商品 -->
     <section class="recommend">
-      <a href="product-detail-1.html"><img src="https://via.placeholder.com/200x150?text=推荐商品1" alt="推荐商品1"></a>
-      <a href="product-detail-2.html"><img src="https://via.placeholder.com/200x150?text=推荐商品2" alt="推荐商品2"></a>
-      <a href="product-detail-3.html"><img src="https://via.placeholder.com/200x150?text=推荐商品3" alt="推荐商品3"></a>
-      <a href="product-detail-4.html"><img src="https://via.placeholder.com/200x150?text=推荐商品4" alt="推荐商品4"></a>
+      <a href="product-detail-01.html">
+        <img src="../../picture/四件套.png" alt="推荐商品1">
+      </a>
+      <a href="product-detail-02.html">
+        <img src="../../picture/帐篷.png" alt="推荐商品2">
+      </a>
+      <a href="product-detail-03.html">
+        <img src="../../picture/桌子.png" alt="推荐商品3">
+      </a>
+      <a href="product-detail-4.html">
+        <img src="../../picture/手表.png" alt="推荐商品4">
+      </a>
     </section>
   </div>
 
   <!-- 引入脚本 -->
-  <script src="../js/auth.js"></script>
-  <script src="../js/slider.js"></script>
-  <!-- 引入搜索功能脚本 -->
-  <script src="../js/search.js"></script>
+  <script>
+    // 轮播图JavaScript逻辑
+    let currentIndex = 0;
+    const bannerContainer = document.getElementById('banner-container');
+    const bannerItems = document.querySelectorAll('.banner-item');
+    const totalItems = bannerItems.length;
+    let slideInterval;
 
+    // 初始化轮播图
+    function initSlider() {
+      // 确保轮播容器和轮播项存在
+      if (!bannerContainer || totalItems === 0) {
+        console.error('轮播容器或轮播项不存在');
+        return;
+      }
+      
+      // 设置初始位置
+      updateSliderPosition();
+      
+      // 启动自动轮播
+      startAutoSlide();
+      
+      // 添加鼠标悬停暂停功能
+      const banner = document.querySelector('.banner');
+      banner.addEventListener('mouseenter', stopAutoSlide);
+      banner.addEventListener('mouseleave', startAutoSlide);
+    }
+
+    // 更新轮播图位置
+    function updateSliderPosition() {
+      // 计算偏移百分比
+      const offset = -currentIndex * (100 / totalItems);
+      // 应用变换
+      bannerContainer.style.transform = `translateX(${offset}%)`;
+    }
+
+    // 切换到下一张或上一张
+    function changeBanner(direction) {
+      // 停止当前的自动轮播
+      stopAutoSlide();
+      
+      // 计算新的索引
+      currentIndex = (currentIndex + direction + totalItems) % totalItems;
+      
+      // 更新轮播图位置
+      updateSliderPosition();
+      
+      // 重新启动自动轮播
+      setTimeout(startAutoSlide, 500); // 短暂延迟后重启自动轮播
+    }
+
+    // 开始自动轮播
+    function startAutoSlide() {
+      // 清除之前的定时器
+      stopAutoSlide();
+      
+      // 设置新的定时器
+      slideInterval = setInterval(() => {
+        changeBanner(1); // 向右切换
+      }, 5000); // 5秒切换一次
+    }
+
+    // 停止自动轮播
+    function stopAutoSlide() {
+      if (slideInterval) {
+        clearInterval(slideInterval);
+        slideInterval = null;
+      }
+    }
+
+    // 页面加载完成后初始化轮播图
+    document.addEventListener('DOMContentLoaded', initSlider);
+  </script>
   <script>
     // 商品分类展开/收起功能
     document.addEventListener('DOMContentLoaded', function() {
@@ -505,14 +650,18 @@
       
       // 示例商品数据
       const products = [
-        { id: 1, name: "高级钢笔", price: 89, category: "文具", subcategory: "笔类", image: "https://via.placeholder.com/200x200?text=钢笔" },
-        { id: 2, name: "商务笔记本", price: 39, category: "文具", subcategory: "笔记本", image: "https://via.placeholder.com/200x200?text=笔记本" },
-        { id: 3, name: "真皮钱包", price: 199, category: "服装", subcategory: "配饰", image: "https://via.placeholder.com/200x200?text=钱包" },
-        { id: 4, name: "纯棉T恤", price: 89, category: "服装", subcategory: "上衣", image: "https://via.placeholder.com/200x200?text=T恤" },
-        { id: 5, name: "智能手表", price: 1299, category: "电子产品", subcategory: "穿戴设备", image: "https://via.placeholder.com/200x200?text=手表" },
-        { id: 6, name: "实木书桌", price: 1599, category: "家具", subcategory: "桌椅", image: "https://via.placeholder.com/200x200?text=书桌" },
-        { id: 7, name: "蓝牙音箱", price: 399, category: "电子产品", subcategory: "音频设备", image: "https://via.placeholder.com/200x200?text=音箱" },
-        { id: 8, name: "速溶咖啡", price: 59, category: "食品", subcategory: "饮料", image: "https://via.placeholder.com/200x200?text=咖啡" }
+        { id: 1, name: "高级钢笔", price: 20.9, category: "文具", subcategory: "笔类", image: "../../picture/笔.jpg", description: "高品质金属笔尖，书写流畅，适合日常办公和书写。" },
+        { id: 2, name: "商务笔记本", price: 10.90, category: "文具", subcategory: "笔记本", image: "../../picture/本子.jpg", description: "精装硬壳笔记本，优质纸张，适合会议记录和日常笔记。" },
+        { id: 3, name: "真皮钱包", price: 111, category: "服装", subcategory: "配饰", image: "../../picture/钱包.png", description: "精选头层牛皮，多卡位设计，简约时尚，商务休闲皆宜。" },
+        { id: 4, name: "纯棉T恤", price: 89, category: "服装", subcategory: "上衣", image: "../../picture/短袖.png", description: "100%纯棉面料，舒适透气，多种颜色可选，经典百搭。" },
+        { id: 5, name: "智能手表", price: 1299, category: "电子产品", subcategory: "穿戴设备", image: "../../picture/手表.png", description: "多功能智能手表，心率监测，睡眠分析，运动追踪，防水设计。" },
+        { id: 6, name: "实木书桌", price: 2300, category: "家具", subcategory: "桌椅", image: "../../picture/书桌.png", description: "精选实木打造，坚固耐用，简约现代风格，适合家庭和办公使用。" },
+        { id: 7, name: "无线蓝牙耳机", price: 599, category: "电子产品", subcategory: "音频设备", image: "../../picture/耳机.png", description: "高清音质，长续航，蓝牙5.0，佩戴舒适，适合运动和日常使用。" },
+        { id: 8, name: "有机坚果礼盒", price: 129, category: "食品", subcategory: "零食", image: "../../picture/坚果.jpg", description: "精选多种有机坚果，独立小包装，健康美味，适合送礼和自享。" },
+        { id: 9, name: "咖啡杯", price: 49, category: "家具", subcategory: "餐具", image: "../../picture/咖啡杯.png", description: "陶瓷材质，精美设计，保温性能好，适合咖啡和茶爱好者。" },
+        { id: 10, name: "保温杯", price: 129, category: "家具", subcategory: "餐具", image: "../../picture/保温杯.png", description: "304不锈钢内胆，真空保温，持久锁温，适合户外活动和办公使用。" },
+        { id: 11, name: "纯棉床单四件套", price: 399, category: "家具", subcategory: "床上用品", image: "../../picture/四件套.png", description: "100%纯棉面料，舒适透气，多种颜色可选，高品质印染工艺。" },
+        { id: 12, name: "户外帐篷", price:1120.9, category: "家具", subcategory: "户外用品", image: "../../picture/帐篷.png", description: "轻便易携带，防风防雨，适合2-3人使用，适合露营和户外活动。" },
       ];
       
       // 执行搜索
@@ -568,6 +717,4 @@
     });
   </script>
 </body>
-
 </html>
-    

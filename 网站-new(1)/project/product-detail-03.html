@@ -12,12 +12,12 @@
     <button class="back-btn" onclick="goToIndex()">返回首页</button>
     
     <div class="product">
-      <h2 class="product-name" id="product-name">商品03</h2>
+      <h2 class="product-name" id="product-name">桌子</h2>
       <p class="product-category" id="product-category">家具</p>
-      <p class="product-price" id="product-price">¥49.99</p>
-      <button class="add-to-cart" onclick="addToCart('商品03', 49.99, '家具')">加入购物车</button>
-      <button class="add-to-favorite" onclick="addToFavorite('商品03', 49.99, '家具')">加入收藏夹</button>
-      <button class="buy-now" onclick="buyNow(49.99)">立即购买</button>
+      <p class="product-price" id="product-price">¥2300</p>
+      <button class="add-to-cart" onclick="addToCart('桌子', 2300, '家具')">加入购物车</button>
+      <button class="add-to-favorite" onclick="addToFavorite('桌子', 2300, '家具')">加入收藏夹</button>
+      <button class="buy-now" onclick="buyNow(2300)">立即购买</button>
     </div>
     
     <a href="cart.html" class="go-to-cart">前往购物车</a>
@@ -25,6 +25,38 @@
   </div>
   <script src="../js/script.js"></script>
   <script src="../js/auth.js"></script>
+  <script>
+  // 添加商品图片显示功能
+  document.addEventListener('DOMContentLoaded', function() {
+    // 创建商品图片容器
+    const productContainer = document.querySelector('.product');
+    const productImageContainer = document.createElement('div');
+    productImageContainer.className = 'product-image-container';
+    
+    // 创建商品图片元素
+    const productImage = document.createElement('img');
+    productImage.id = 'product-image';
+    productImage.className = 'product-image';
+    
+    // 设置商品图片源 - 根据不同商品页面设置不同图片路径
+    productImage.src = "../../picture/桌子.png"; // 确保路径正确
+    
+    // 获取商品名称作为图片替代文本
+    const productNameElement = document.getElementById('product-name');
+    productImage.alt = productNameElement ? productNameElement.textContent : "商品图片";
+    
+    // 将图片添加到容器中
+    productImageContainer.appendChild(productImage);
+    
+    // 将图片容器插入到商品名称前面
+    productContainer.insertBefore(productImageContainer, productContainer.firstChild);
+    
+    // 添加样式（如果您的CSS中没有定义）
+    productImage.style.width = '100%';
+    productImage.style.maxWidth = '400px';
+    productImage.style.marginBottom = '15px';
+  });
+  </script>
   <div id="login-status" class="login-status"></div>
 </body>
 </html>

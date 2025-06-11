@@ -1,45 +1,73 @@
-let currentIndex = 0;
-const bannerItems = document.querySelectorAll('.banner-item');
-const prevBtn = document.querySelector('.prev-btn');
-const nextBtn = document.querySelector('.next-btn');
-const autoPlayInterval = 3000; // 3秒切换一次
+// slider.js - 轮播图组件
 
-// 初始化轮播
-function initSlider() {
-  bannerItems.forEach((item, index) => {
-    if (index === currentIndex) {
-      item.classList.add('active');
-    } else {
-      item.classList.remove('active');
-    }
-  });
-
-  // 自动轮播
-  setInterval(showNextItem, autoPlayInterval);
-
-  // 左右切换按钮
-  prevBtn.addEventListener('click', showPrevItem);
-  nextBtn.addEventListener('click', showNextItem);
-}
-
-// 显示下一个商品
-function showNextItem() {
-  currentIndex = (currentIndex + 1) % bannerItems.length;
-  updateActiveItem();
-}
-
-// 显示上一个商品
-function showPrevItem() {
-  currentIndex = (currentIndex - 1 + bannerItems.length) % bannerItems.length;
-  updateActiveItem();
-}
-
-// 更新激活状态
-function updateActiveItem() {
-  bannerItems.forEach((item, index) => {
-    item.classList.toggle('active', index === currentIndex);
-  });
-}
-
-// 页面加载后初始化
-window.addEventListener('DOMContentLoaded', initSlider);
+document.addEventListener('DOMContentLoaded', function() {
+  // 获取DOM元素
+  const bannerContainer = document.getElementById('banner-container');
+  const bannerItems = document.querySelectorAll('.banner-item');
+  const prevBtn = document.querySelector('.prev-btn');
+  const nextBtn = document.querySelector('.next-btn');
+  
+  // 配置参数
+  const slideCount = bannerItems.length;
+  const slideInterval = 5000; // 5秒切换一次
+  let currentIndex = 0;
+  let autoPlayTimer;
+  
+  // 初始化轮播图
+  function initSlider() {
+    // 设置初始位置
+    updateSliderPosition();
+    
+    // 绑定按钮事件
+    prevBtn.addEventListener('click', goToPrevSlide);
+    nextBtn.addEventListener('click', goToNextSlide);
+    
+    // 添加鼠标悬停暂停功能
+    bannerContainer.addEventListener('mouseenter', pauseAutoPlay);
+    bannerContainer.addEventListener('mouseleave', startAutoPlay);
+    
+    // 开始自动轮播
+    startAutoPlay();
+  }
+  
+  // 更新轮播图位置
+  function updateSliderPosition() {
+    // 计算偏移量百分比
+    const offset = -currentIndex * (100 / slideCount);
+    // 应用变换
+    bannerContainer.style.transform = `translateX(${offset}%)`;
+  }
+  
+  // 前往下一张幻灯片
+  function goToNextSlide() {
+    currentIndex = (currentIndex + 1) % slideCount;
+    updateSliderPosition();
+    resetAutoPlayTimer();
+  }
+  
+  // 前往上一张幻灯片
+  function goToPrevSlide() {
+    currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+    updateSliderPosition();
+    resetAutoPlayTimer();
+  }
+  
+  // 开始自动轮播
+  function startAutoPlay() {
+    autoPlayTimer = setInterval(goToNextSlide, slideInterval);
+  }
+  
+  // 暂停自动轮播
+  function pauseAutoPlay() {
+    clearInterval(autoPlayTimer);
+  }
+  
+  // 重置自动轮播计时器
+  function resetAutoPlayTimer() {
+    pauseAutoPlay();
+    startAutoPlay();
+  }
+  
+  // 初始化轮播图
+  initSlider();
+});
